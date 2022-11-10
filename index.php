@@ -1,39 +1,35 @@
 <?php
 
-error_reporting(1);
+if (isset($_POST['submit'])) {
 
-function redirect($path){
-    echo "?$path";
-}
+    $p_1 = 0;
+    $p_2 = 0;
+    $d = 0;
 
-$query = $_SERVER['QUERY_STRING'];
+    for ($i = 0; $i < 100; $i++) {
+        $player_1 = rand(0, 9);
+        $player_2 = rand(0, 9);
 
-switch($query){
-    case "home" : 
-        header('location: ./home.php');
-        break;
-    case "about" : 
-        header('location: ./about.php');
-        break;
-    case "contact" : 
-        header('location: ./contact.php');
-        break;
-    default : echo "This is Main Page";
+        if ($player_1 > $player_2) {
+            $p_1++;
+        } else if ($player_1 < $player_2) {
+            $p_2++;
+        } else if ($player_1 == $player_2) {
+            $d++;
+        }
+    }
+    echo "Player 1 is Win $p_1 times <br/>";
+    echo "Player 2 is Win $p_2 times <br/>";
+    echo "Draw $d times <br/>";
+    if ($p_1 > $p_2) {
+        echo "So Player 1 is Winner";
+    } else {
+        echo "So Player 2 is Winner";
+    }
 }
 
 ?>
 
-<table border="1">
-    <tr>
-        <td>Home Page</td>
-        <td><a href="<?php redirect('home') ?>">Home</a></td>
-    </tr>
-    <tr>
-        <td>About Page</td>
-        <td><a href="<?php redirect('about') ?>">About</a></td>
-    </tr>
-    <tr>
-        <td>Contact Page</td>
-        <td><a href="<?php redirect('contact') ?>">Contact</a></td>
-    </tr>
-</table>
+<form action="" method="POST">
+    <input type="submit" value="start" name="submit">
+</form>
