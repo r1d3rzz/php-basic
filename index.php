@@ -1,31 +1,44 @@
 <?php
 
-$file = "text.txt"; //test with change file variable value eg.tests.txt so that u can see the error Handling Effect
+$name = "Rider";
+$age = 22;
 
-// Three Types of Handling => die , exit, try & catch
+// ------------Diff between printf and fprintf------------
 
-//using exit();
-// if (!file_exists($file)) {
-//     exit('File not Exits');
-// }
+// printf("Hello My name is %s and age is %u years old.", $name, $age);
 
+// $handler = fopen('text.txt', 'w');
+// fprintf($handler, 'Hello my name is %s and age is %u years old.', $name, $age);
+// fclose($handler);
 
-//using die();
-// if (!file_exists($file)) {
-//     die('File not Exits');
-// }
+//Create XML File
 
+$file = "text.xml";
 
-//using try and catch 
-try {
-    if (file_exists($file)) {
-        $handler = fopen($file, 'r');
-        $fileText = fread($handler, filesize($file));
-        fclose($handler);
-        echo $fileText;
-    } else {
-        throw new Exception('File not Found!');
-    }
-} catch (Exception $e) {
-    echo $e->getMessage();
+$xmlText = [
+    'name' => 'rider',
+    'age' => 22,
+    'gender' => 'male',
+    'job' => 'studends',
+    'code' => 'php'
+];
+
+$str = "";
+
+$str .= "<program>";
+foreach ($xmlText as $key => $val) {
+    $str .= "<" . $key . ">";
+    $str .=   $val;
+    $str .= "</" . $key . ">";
+};
+$str .= "</program>";
+
+$handler = fopen($file, 'w');
+fprintf($handler, '%s', $str);
+fclose($handler);
+
+$xml = simplexml_load_file('text.xml');
+
+foreach ($xml as $key => $val) {
+    echo $key . " = " . $val . "<br/>";
 }
