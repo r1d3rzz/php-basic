@@ -1,59 +1,19 @@
 <?php
 
-require_once "nav.php";
+$password = "password";
 
-session_start();
-
-$name = $_POST['name'];
-$password = $_POST['password'];
-$login = $_POST['login'];
-
-if (isset($login)) {
-    if ($name == 'Rider' && $password == 'rider') {
-        $_SESSION['name'] = $name;
-        header('location:profile.php');
-    } else {
-        echo "<script>alert('wrong password or username')</script>";
-    }
-}
-
-?>
-
-<form action="" method="POST" class="inputContainer">
-    <h3>Login Page</h3>
-
-    <div class="inputValue">
-        <div>Username => Rider</div>
-        <div>Password => rider</div>
-    </div>
-
-    <table>
-        <tr>
-            <td>Username</td>
-            <td><input type="text" name="name" id=""></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password" id=""></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="end"><input type="submit" value="Login" name="login"></td>
-        </tr>
-    </table>
-</form>
-
-<style>
-    .inputContainer {
-        margin-top: 30px;
-    }
-
-    .inputValue {
-        border: 1px solid cyan;
-        width: 150px;
-        text-align: center;
-        padding: 10px 0;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        box-shadow: 6px 6px 10px black;
-    }
-</style>
+echo "Original Value = " . $password . "<br/>";
+echo "<br/>";
+echo "md5 false = " . md5($password, false) . "<br/>";
+echo "<br/>";
+echo "md5 true = " . md5($password, true) . "<br/>";
+echo "<br/>";
+echo "sha1 false = " . sha1($password, false) . "<br/>";
+echo "<br/>";
+echo "sha1 true = " . sha1($password, true) . "<br/>";
+echo "<br/>";
+echo "crypt = " . crypt($password, $password) . "<br/>";
+echo "<br/>";
+echo "all combine = " . crypt(sha1(md5($password, true)), $password) . "<br/>";
+echo "<br/>";
+echo "all combine extra* = " . crypt(sha1(md5($password, true), true), sha1(md5($password))) . "<br/>";
