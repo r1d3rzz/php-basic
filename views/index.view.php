@@ -6,7 +6,7 @@ $password = $_POST['password'];
 $register = $_POST['register'];
 
 if (isset($register)) {
-    if ($name == '' && $email == '' && $password == '') {
+    if ($name == '' || $email == '' || $password == '') {
         echo "<script>alert('Please Enter Name,Email and Password')</script>";
     } else {
         uniqueUserDataFilter($name, $email, $password);
