@@ -1,39 +1,44 @@
+<?php require "./components/header.php"; ?>
+
 <?php
 
-$name = $_POST['name'];
-$email = $_POST['email'];
-$password = $_POST['password'];
-$register = $_POST['register'];
+function index()
+{
+    $db = dbConnection();
+    $query = "SELECT * FROM users";
+    $result = mysqli_query($db, $query);
+    if (mysqli_num_rows($result) > 0) {
+        echo "<h3>Total Users (" . mysqli_num_rows($result) . ")</h3>";
 
-if (isset($register)) {
-    if ($name == '' || $email == '' || $password == '') {
-        echo "<script>alert('Please Enter Name,Email and Password')</script>";
+        foreach ($result as $user) { ?>
+
+            <div class="userContainer">
+                <div>Id : <?= $user['id']; ?></div>
+                <div>Name : <?= $user['name']; ?></div>
+                <div>Email : <?= $user['email']; ?></div>
+                <div>Password : <?= $user['password']; ?></div>
+            </div>
+
+<?php };
     } else {
-        uniqueUserDataFilter($name, $email, $password);
+        echo "<h3>Empty Users</h3>";
     }
 }
 
+index();
+
 ?>
 
-<form action="" method="POST">
-    <table border="1">
-        <tr>
-            <td>Name</td>
-            <td><input type="text" name="name"></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input type="text" name="email"></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="end">
-                <input type="reset" value="Cancel">
-                <input type="submit" value="Register" name="register">
-            </td>
-        </tr>
-    </table>
-</form>
+<?php require "./components/footer.php"; ?>
+
+<style>
+    .userContainer {
+        border: 1px solid cyan;
+        border-radius: 5px;
+        text-align: start;
+        padding: 10px;
+        width: 250px;
+        margin: 10px auto;
+        box-shadow: 5px 5px 9px gray;
+    }
+</style>

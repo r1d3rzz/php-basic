@@ -8,7 +8,7 @@ function uniqueUserDataFilter($name, $email, $password)
     $result = mysqli_query($db, $query);
     if (mysqli_num_rows($result) > 0) {
         echo "<script>alert('Your Email is Already Exits!Try Another One.')</script>";
-        echo "<script>location='index.php'</script>";
+        echo "<script>location='/?register'</script>";
     } else {
         return store($name, $email, $password);
     }
@@ -20,5 +20,5 @@ function store($name, $email, $password)
     $query = "INSERT INTO users (name,email,password) VALUES ('$name','$email','$password')";
     $result = mysqli_query($db, $query);
     echo $result > 0 ? "<script>alert('Successfully Created.')</script>" : "<script>alert('Fail.')</script>";
-    echo "<script>location='index.php'</script>";
+    echo "<script>location='/'</script>";
 }
