@@ -21,66 +21,26 @@ function dbConnect()
     };
 }
 
-function excuteQuery($query)
+function store($name, $email, $pass)
 {
+    $query = "INSERT INTO users (name,email,password) VALUES ('$name','$email','$pass')";
     $result = mysqli_query(dbConnect(), $query);
-    if (mysqli_num_rows($result) > 0) {
-        echo "<h3>Total Users (" . mysqli_num_rows($result) . ")</h3>";
-        foreach ($result as $item) {
-            echo 'Id = ' . $item['id'] . "<br/>";
-            echo 'Name = ' . $item['name'] . "<br/>";
-            echo 'Email = ' . $item['email'] . "<br/>";
-            echo 'Password = ' . $item['password'] . "<br/>";
-            echo "<hr/>";
-        }
-    }
+    echo $result > 0 ? 'Store' : 'Fail';
 }
 
-function singleData($id)
+function uniquerInsert($name, $email, $pass)
 {
-    $query = "SELECT * FROM users WHERE id = $id";
-    $result = mysqli_query(dbConnect(), $query);
-    if (!mysqli_num_rows($result) > 0) {
-        echo "<h3>User Id = $id not Found</h3>";
-    }
+    $pass = crypt(sha1(md5($pass, true), true), sha1(md5($pass, true)));
+    $db = dbConnect();
+    $query = "SELECT * FROM users WHERE name='$name' && email='$email'";
+    $result = mysqli_query($db, $query);
     if (mysqli_num_rows($result) > 0) {
-        echo "<h3>Total Users (" . mysqli_num_rows($result) . ")</h3>";
-        foreach ($result as $item) {
-            echo 'Id = ' . $item['id'] . "<br/>";
-            echo 'Name = ' . $item['name'] . "<br/>";
-            echo 'Email = ' . $item['email'] . "<br/>";
-            echo 'Password = ' . $item['password'] . "<br/>";
-            echo "<hr/>";
-        }
-    }
-}
-
-
-
-$id = $_POST['id'];
-$search = $_POST['search'];
-if (isset($search)) {
-    if ($id == '') {
-        $query = 'SELECT * FROM users';
-        excuteQuery($query);
+        echo "Your Username or Email is Already Exits.Try New One";
     } else {
-        singleData($id);
+        store($name, $email, $pass);
     }
 }
 
 
-?>
 
-<form action="" method="POST">
-    <table border="1">
-        <tr>
-            <td>Enter User ID</td>
-            <td><input type="number" name="id"></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="end">
-                <input type="submit" value="Search" name="search">
-            </td>
-        </tr>
-    </table>
-</form>
+uniquerInsert('TUNTUN', 'tuntun@gmail.com', 'rider');
