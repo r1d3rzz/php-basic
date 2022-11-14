@@ -14,6 +14,9 @@ switch ($query) {
     case 'login':
         header('location: ./views/login.view.php');
         break;
+    case 'welcome':
+        header('location: ./views/welcome.view.php');
+        break;
 }
 
 ?>

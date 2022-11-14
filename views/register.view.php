@@ -31,6 +31,7 @@ if (isset($register)) {
 
 <div class="formContainer">
     <form action="" method="POST" class="registerContainer">
+        <h3>Register Here</h3>
         <table border="1">
             <tr>
                 <td>Name</td>
@@ -51,6 +52,7 @@ if (isset($register)) {
                 </td>
             </tr>
         </table>
+        <p>If you have already Account? <a href="./login.view.php">Login</a> Here.</p>
     </form>
 </div>
 
