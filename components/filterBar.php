@@ -17,17 +17,24 @@ function index()
     $result = mysqli_query($db, $query);
     if (mysqli_num_rows($result) > 0) {
         echo "<h3>Total Users (" . mysqli_num_rows($result) . ")</h3>";
-
+        echo "<table border='1' class='table'>";
+        echo "<tr>";
+        echo "<th>Id</th>";
+        echo "<th>Name</th>";
+        echo "<th>Email</th>";
+        echo "<th>Password</th>";
+        echo "</tr>";
         foreach ($result as $user) { ?>
 
-            <div class="userContainer">
-                <div>Id : <?= $user['id']; ?></div>
-                <div>Name : <?= $user['name']; ?></div>
-                <div>Email : <?= $user['email']; ?></div>
-                <div>Password : <?= $user['password']; ?></div>
-            </div>
+            <tr>
+                <td><?= $user['id']; ?></td>
+                <td><?= $user['name']; ?></td>
+                <td><?= $user['email']; ?></td>
+                <td><?= $user['password']; ?></td>
+            </tr>
 
 <?php };
+        echo "</table>";
     } else {
         echo "<h3>Empty Users</h3>";
     }
@@ -47,16 +54,24 @@ function filterUserByName($name)
         index();
     } else {
         echo "<h3>Total Users (" . mysqli_num_rows($result) . ")</h3>";
+        echo "<table border='1' class='table'>";
+        echo "<tr>";
+        echo "<th>Id</th>";
+        echo "<th>Name</th>";
+        echo "<th>Email</th>";
+        echo "<th>Password</th>";
+        echo "</tr>";
         foreach ($result as $user) { ?>
 
-            <div class="userContainer">
-                <div>Id : <?= $user['id']; ?></div>
-                <div>Name : <?= $user['name']; ?></div>
-                <div>Email : <?= $user['email']; ?></div>
-                <div>Password : <?= $user['password']; ?></div>
-            </div>
+            <tr>
+                <td><?= $user['id']; ?></td>
+                <td><?= $user['name']; ?></td>
+                <td><?= $user['email']; ?></td>
+                <td><?= $user['password']; ?></td>
+            </tr>
 
 <?php }
+        echo "</table>";
     }
 }
 
@@ -69,13 +84,12 @@ if (isset($searchBtn)) {
 ?>
 
 <style>
-    .userContainer {
-        border: 1px solid cyan;
-        border-radius: 5px;
+    .table {
+        margin: 0 auto;
         text-align: start;
-        padding: 10px;
-        width: 250px;
-        margin: 10px auto;
-        box-shadow: 5px 5px 9px gray;
+    }
+
+    td {
+        padding: 5px;
     }
 </style>

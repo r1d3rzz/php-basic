@@ -2,6 +2,8 @@
 
 error_reporting(1);
 
+session_start();
+
 require "../core/function.php";
 
 require "../config.php";
@@ -28,6 +30,7 @@ function login($email, $password)
         echo "<script>alert('Email or Password is Wrong!')</script>";
         echo "<script>location='/?login'</script>";
     } else {
+        $_SESSION['email'] = $email;
         echo "<script>location='/?welcome'</script>";
     }
 }

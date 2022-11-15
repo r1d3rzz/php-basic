@@ -2,31 +2,90 @@
 
 error_reporting(1);
 
+session_start();
+
 require "../core/function.php";
+
+require "../config.php";
+
+require "../components/navbar.php";
+
+$email = $_SESSION['email'];
+
+function dbConnection()
+{
+    $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    if (!mysqli_errno($db) > 0) {
+        return $db;
+    }
+}
+
+function fetchSingleUserData($email)
+{
+    $db = dbConnection();
+    $query = "SELECT * FROM users WHERE email='$email'";
+    $result = mysqli_query($db, $query);
+    if (!isset($_SESSION['email'])) {
+        echo "<script>alert('User Not Found!')</script>";
+        echo "<script>location='/?login'</script>";
+    } else {
+        if (!mysqli_num_rows($result) > 0) {
+            echo "<script>alert('User Not Found!')</script>";
+            echo "<script>location='/?login'</script>";
+        } else {
+            foreach ($result as $user) { ?>
+
+                <div class="container">
+                    <div class="title">Welome <?= $user['name']; ?></div>
+                    <small class="muted">Logged as : <?= $user['email']; ?></small>
+                </div>
+
+                <div class="btn">
+                    <form action="" method="POST">
+                        <input type="submit" value="Logout" name="logout">
+                    </form>
+                </div>
+
+<?php }
+        }
+    }
+}
+
+fetchSingleUserData($email);
 
 $logout = $_POST['logout'];
 
 if (isset($logout)) {
-    header('location: ./login.view.php');
+    session_destroy();
+    echo "<script>alert('User Logout')</script>";
+    echo "<script>location='/?home'</script>";
 }
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    .container {
+        margin: 0 auto;
+        margin-bottom: 20px;
+        border: 1px solid cyan;
+        width: 250px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 5px 5px 10px gray;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Page</title>
-</head>
+    .title {
+        font-weight: bold;
+        margin: 5px 0;
+        font-family: sans-serif;
+    }
 
-<body>
-    <h1>Hello User</h1>
-    <form action="" method="POST">
-        <input type="submit" value="Logout" name="logout">
-    </form>
-</body>
+    .muted {
+        color: gray;
+    }
 
-</html>
+    .btn {
+        display: flex;
+        justify-content: center;
+    }
+</style>

@@ -2,6 +2,8 @@
 
 error_reporting(1);
 
+session_start();
+
 $query = $_SERVER['QUERY_STRING'];
 
 switch ($query) {
@@ -22,13 +24,20 @@ switch ($query) {
 ?>
 
 <nav class="navContainer">
-    <a href="/">All Users</a> |
-    <a href="/?register">Register</a> |
-    <a href="/?login">Login</a>
+    <a href="/">All Users</a>
+    <?php
+    if (!isset($_SESSION['email'])) {
+        echo " | <a href='/?register'>Register</a>";
+        echo " | <a href='/?login'>Login</a>";
+    } else {
+        echo " | <a href='/?welcome'>Profile</a>";
+    }
+    ?>
 </nav>
 
 <style>
     .navContainer {
+        text-align: center;
         margin-bottom: 20px;
     }
 
