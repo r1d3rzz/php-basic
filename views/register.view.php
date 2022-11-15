@@ -2,6 +2,12 @@
 
 error_reporting(1);
 
+session_start();
+
+if (isset($_SESSION['email'])) {
+    echo "<script>location='/?home'</script>";
+}
+
 require "../config.php";
 require "../database/queryFunction.php";
 
@@ -22,6 +28,7 @@ if (isset($register)) {
     if ($name == '' || $email == '' || $password == '') {
         echo "<script>alert('Please Enter Name,Email and Password')</script>";
     } else {
+        $_SESSION['email'] = $email;
         uniqueUserDataFilter($name, $email, $password);
     }
 }

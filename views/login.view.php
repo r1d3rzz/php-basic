@@ -4,6 +4,10 @@ error_reporting(1);
 
 session_start();
 
+if (isset($_SESSION['email'])) {
+    echo "<script>location='/?home'</script>";
+}
+
 require "../core/function.php";
 
 require "../config.php";
@@ -16,13 +20,18 @@ function dbConnection()
     }
 }
 
+function passwordUnCrybt($password)
+{
+    return crypt(sha1(md5($password, true), true), sha1(md5($password, true)));
+}
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 $login = $_POST['login'];
 
 function login($email, $password)
 {
-    $password = crypt(sha1(md5($password, true), true), sha1(md5($password, true)));
+    $password = passwordUnCrybt($password);
     $db = dbConnection();
     $query = "SELECT * FROM users WHERE email='$email' && password='$password'";
     $result = mysqli_query($db, $query);
@@ -54,11 +63,11 @@ if (isset($login)) {
         <table border="1">
             <tr>
                 <td align="end"><label for="email">Email</label></td>
-                <td><input type="email" name="email" id="email"></td>
+                <td><input type="email" name="email" id="email" value="<?= $_COOKIE['email']; ?>"></td>
             </tr>
             <tr>
                 <td><label for="pass">Password</label></td>
-                <td><input type="password" name="password" id="pass"></td>
+                <td><input type="password" name="password" id="pass" value="<?= $_COOKIE['password']; ?>"></td>
             </tr>
             <tr>
                 <td colspan="2" align="end"><input type="submit" value="Login" name="login"></td>
