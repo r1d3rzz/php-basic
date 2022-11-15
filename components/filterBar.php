@@ -13,7 +13,7 @@ $search = $_POST['search'];
 function index()
 {
     $db = dbConnection();
-    $query = "SELECT * FROM users";
+    $query = "SELECT * FROM users ORDER BY id DESC";
     $result = mysqli_query($db, $query);
     if (mysqli_num_rows($result) > 0) {
         echo "<h3>Total Users (" . mysqli_num_rows($result) . ")</h3>";
@@ -76,7 +76,11 @@ function filterUserByName($name)
 }
 
 if (isset($searchBtn)) {
-    filterUserByName($search);
+    if ($search == '') {
+        index();
+    } else {
+        filterUserByName($search);
+    }
 } else {
     index();
 }
