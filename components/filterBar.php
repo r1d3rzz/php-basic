@@ -23,12 +23,19 @@ function deleteUser($id)
     }
 }
 
+$query_string = $_SERVER['QUERY_STRING'];
+$id_exploder = explode("=", $query_string);
+$user_id = $id_exploder[1];
+
 if (isset($_SESSION['email']) && $_SESSION['email'] == 'admin@gmail.com') {
-    $query_string = $_SERVER['QUERY_STRING'];
-    $id_exploder = explode("=", $query_string);
-    $user_id = $id_exploder[1];
     if ($user_id > 0) {
         deleteUser($user_id);
+    }
+}
+
+if (isset($_SESSION['email'])) {
+    if ($user_id > 0) {
+        echo "<script>location='/?edit'</script>";
     }
 }
 
@@ -41,7 +48,7 @@ function tableLayout($result)
     echo "<th>Name</th>";
     echo "<th>Email</th>";
     echo "<th>Password</th>";
-    if (isset($_SESSION['email']) && $_SESSION['email'] == 'admin@gmail.com') {
+    if (isset($_SESSION['email'])) {
         echo "<th>Actions</th>";
     }
     echo "</tr>";
@@ -73,6 +80,19 @@ function index()
                         <?php }
                         ?>
                     </td>
+                <?php }
+
+                ?>
+                <?php
+
+                if (isset($_SESSION['email']) && $_SESSION['email'] == $user['email']) { ?>
+                    <?php
+                    if ($_SESSION['email'] != 'admin@gmail.com') { ?>
+                        <td align="center">
+                            <a href="/user/edit/?id=<?= $user['id']; ?>" class="btn editBtn">edit</a>
+                        </td>
+                    <?php }
+                    ?>
                 <?php }
 
                 ?>
@@ -122,6 +142,20 @@ function filterUserByName($name)
 
                 ?>
 
+                <?php
+
+                if (isset($_SESSION['email']) && $_SESSION['email'] == $user['email']) { ?>
+                    <?php
+                    if ($_SESSION['email'] != 'admin@gmail.com') { ?>
+                        <td align="center">
+                            <a href="/user/edit/?id=<?= $user['id']; ?>" class="btn editBtn">edit</a>
+                        </td>
+                    <?php }
+                    ?>
+                <?php }
+
+                ?>
+
             </tr>
 
 <?php }
@@ -165,5 +199,9 @@ if (isset($searchBtn)) {
 
     .adminBtn {
         background-color: blue;
+    }
+
+    .editBtn {
+        background-color: green;
     }
 </style>
