@@ -15,6 +15,16 @@ $search = $_POST['search'];
 function deleteUser($id)
 {
     $db = dbConnection();
+    $fetchQuery = "SELECT email from users WHERE id = '$id'";
+    $result = mysqli_query($db, $fetchQuery);
+    if (mysqli_num_rows($result)) {
+        foreach ($result as $user) {
+            if ($user['email'] == 'admin@gmail.com') {
+                echo "<script>location='/?edit'</script>";
+                return;
+            }
+        }
+    }
     $query = "DELETE FROM users WHERE id=$id";
     $result = mysqli_query($db, $query);
     if ($result) {
@@ -76,7 +86,7 @@ function index()
                         if ($user['email'] !== 'admin@gmail.com') { ?>
                             <a href="/user/?id=<?= $user['id']; ?>" class="btn deleteBtn">delete</a>
                         <?php } else { ?>
-                            <a href="#" class="btn adminBtn">admin</a>
+                            <a href="/?welcome" class="btn adminBtn">admin</a>
                         <?php }
                         ?>
                     </td>
@@ -134,7 +144,7 @@ function filterUserByName($name)
                         if ($user['email'] !== 'admin@gmail.com') { ?>
                             <a href="/user/?id=<?= $user['id']; ?>" class="btn deleteBtn">delete</a>
                         <?php } else { ?>
-                            <a href="#" class="btn adminBtn">admin</a>
+                            <a href="/?welcome" class="btn adminBtn">admin</a>
                         <?php }
                         ?>
                     </td>

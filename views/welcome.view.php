@@ -37,7 +37,11 @@ function fetchSingleUserData($email)
 
                 <div class="container">
                     <div class="title">Welome <?= $user['name']; ?></div>
-                    <small class="muted">Logged as : <?= $user['email']; ?></small>
+                    <div><small class="muted">Logged as : <?= $user['email']; ?></small></div>
+                    <div class="actionBtn">
+                        <div><button>Delete Account</button></div>
+                        <div><a href="/user/edit/?id=<?= $user['id']; ?>" class="btn editBtn">edit</a></div>
+                    </div>
                 </div>
 
                 <div class="btn">
@@ -80,12 +84,28 @@ if (isset($logout)) {
         font-family: sans-serif;
     }
 
+    .actionBtn {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
     .muted {
         color: gray;
     }
 
     .btn {
         display: flex;
+        text-decoration: none;
         justify-content: center;
+    }
+
+    .editBtn {
+        background-color: blue;
+        color: white;
+        padding: 2.5px 5px;
+        border-radius: 3px;
+        user-select: none;
+        cursor: pointer;
     }
 </style>
