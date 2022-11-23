@@ -111,17 +111,22 @@ function UpdateNoti($result)
 }
 
 if (isset($updateBtn)) {
-    if ($newPassword !== '') {
-        //with pass
-        $newPassword = crypt(sha1(md5($newPassword, true), true), sha1(md5($newPassword, true)));
-        $query = "UPDATE users SET name='$newName',email='$email',password='$newPassword' WHERE email = '$email'";
-        $result = mysqli_query($db, $query);
-        UpdateNoti($result);
+    if ($newName !== '') {
+        if ($newPassword !== '') {
+            //with pass
+            $newPassword = crypt(sha1(md5($newPassword, true), true), sha1(md5($newPassword, true)));
+            $query = "UPDATE users SET name='$newName',email='$email',password='$newPassword' WHERE email = '$email'";
+            $result = mysqli_query($db, $query);
+            UpdateNoti($result);
+        } else {
+            //without pass
+            $query = "UPDATE users SET name='$newName',email='$email',password='$password' WHERE email = '$email'";
+            $result = mysqli_query($db, $query);
+            UpdateNoti($result);
+        }
     } else {
-        //without pass
-        $query = "UPDATE users SET name='$newName',email='$email',password='$password' WHERE email = '$email'";
-        $result = mysqli_query($db, $query);
-        UpdateNoti($result);
+        echo "<script>alert('Please Fill Name Input')</script>";
+        echo "<script>location='/?edit'</script>";
     }
 }
 

@@ -73,6 +73,7 @@ if (isset($login)) {
                 <td colspan="2" align="end"><input type="submit" value="Login" name="login"></td>
             </tr>
         </table>
+        <p><b><a href="/?forgot_password" class="forgotPassword">Forgot password?</a></b></p>
         <p>If you have no Account? <a href="./register.view.php">Register</a> Here.</p>
     </form>
 </div>
@@ -83,5 +84,10 @@ if (isset($login)) {
     .loginContainer {
         display: flex;
         justify-content: center;
+    }
+
+    .forgotPassword {
+        text-decoration: none;
+        font-family: sans-serif;
     }
 </style>

@@ -22,6 +22,9 @@ switch ($query) {
     case 'edit':
         header('location: ./views/edit.view.php');
         break;
+    case 'forgot_password':
+        header('location: ./views/forgot_password.view.php');
+        break;
 }
 
 ?>
