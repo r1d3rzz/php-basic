@@ -11,12 +11,25 @@ require "../config.php";
 require "../components/navbar.php";
 
 $email = $_SESSION['email'];
+$isDelete = $_POST['deleteBtn'];
 
 function dbConnection()
 {
     $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     if (!mysqli_errno($db) > 0) {
         return $db;
+    }
+}
+
+
+if (isset($isDelete)) {
+    $db = dbConnection();
+    $query = "DELETE FROM users WHERE email='$email'";
+    $result = mysqli_query($db, $query);
+    if ($result) {
+        session_destroy();
+        echo "<script>alert('Deleted Successfully')</script>";
+        echo "<script>location='/?home'</script>";
     }
 }
 
@@ -39,7 +52,11 @@ function fetchSingleUserData($email)
                     <div class="title">Welome <?= $user['name']; ?></div>
                     <div><small class="muted">Logged as : <?= $user['email']; ?></small></div>
                     <div class="actionBtn">
-                        <div><button>Delete Account</button></div>
+                        <div>
+                            <form action="" method="POST">
+                                <button type="submit" name="deleteBtn" class="btn deleteBtn">Delete Account</button>
+                            </form>
+                        </div>
                         <div><a href="/user/edit/?id=<?= $user['id']; ?>" class="btn editBtn">edit</a></div>
                     </div>
                 </div>
@@ -98,14 +115,18 @@ if (isset($logout)) {
         display: flex;
         text-decoration: none;
         justify-content: center;
-    }
-
-    .editBtn {
-        background-color: blue;
         color: white;
         padding: 2.5px 5px;
         border-radius: 3px;
         user-select: none;
         cursor: pointer;
+    }
+
+    .editBtn {
+        background-color: blue;
+    }
+
+    .deleteBtn {
+        background-color: red;
     }
 </style>
